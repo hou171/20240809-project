@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pokemon Shop</title>
+    <link rel="icon" href="./img/poke-ball.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .text-style {
+            font-size: 24px;
+        }
+
+        .my-dropdown-after::after {
+            display: none;
+        }
+
+        .my-nav {
+            color: #FFD700;
+        }
+
+        .my-footer-nav {
+            height: 75px;
+        }
+
+        #my-dropdown-menu {
+            left: -130px;
+        }
+
+        main {
+            width: 100%;
+            color: #333333;
+            font-weight: normal;
+        }
+
+        .my-bg {
+            background-color: #FF9D96;
+            box-shadow: 0px 5px 10px gray;
+        }
+
+        .my-circle-bg {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+        }
+
+        .my-progress {
+            margin: 20px 0px;
+        }
+
+        .my-text {
+            white-space: nowrap;
+        }
+
+        .my-container {
+            width: 25%;
+        }
+
+        .my-product-img {
+            width: 50px;
+            height: 50px;
+        }
+
+        #btn-right {
+            color: #FFD700;
+            text-decoration: none;
+        }
+
+        #btn-left {
+            color: #333333;
+            border: 2px solid white;
+            text-decoration: none;
+        }
+
+        @media (max-width:992px) {
+            .my-circle-bg {
+                width: 30px;
+                height: 30px;
+            }
+
+            .my-progress {
+                margin: 10px 0px;
+            }
+        }
+
+        @media (max-width:768px) {
+            .my-text {
+                white-space: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-danger">
+        <div class="row-col-2 container px-5">
+            <a class="col navbar-brand" href="#"><img src="./img/pokemon-logo.png" width="100px"></a>
+            <button class="col-2 my-nav navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item my-auto">
+                        <a class="my-nav nav-link" href="#">最新消息</a>
+                    </li>
+                    <li class="nav-item my-auto">
+                        <a class="my-nav nav-link" href="#">寶可夢百科</a>
+                    </li>
+                    <li class="nav-item my-auto">
+                        <a class="my-nav nav-link" href="#">訓練師指南</a>
+                    </li>
+                    <li class="nav-item my-auto">
+                        <a class="my-nav nav-link" href="#">商城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="my-nav nav-link" href="./shopping-step1.html" role="button">
+                            <i class="bi bi-cart" style="font-size: 20px;"></i>
+                        </a>
+                    <li class="nav-item dropdown">
+                        <a class="my-nav my-dropdown-after nav-link dropdown-toggle" href="./shopping-login.html"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle" style="font-size: 20px;"></i>
+                        </a>
+                        <ul id="my-dropdown-menu" class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./shopping-login.html">登入</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5 d-flex">
+        <div class="container my-bg">
+            <h2 class="m-4"> 購物車 </h2>
+
+            <div class="container d-flex justify-content-around px-5">
+                <div class="d-flex flex-column align-items-center mx-3">
+                    <div class="my-circle-bg rounded-circle d-flex justify-content-center align-items-center"
+                        style="background-color: #0D6EFD; color: white;"> 1 </div>
+                    <span class="mt-3 text-center my-text"> 確認購物車 </span>
+                </div>
+
+                <div class="my-progress progress" style="height: 10px; width: 100%;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column align-items-center mx-3">
+                    <div class="my-circle-bg rounded-circle d-flex justify-content-center align-items-center"
+                        style="background-color: #0D6EFD; color: white;"> 2 </div>
+                    <span class="mt-3 text-center my-text"> 付款與運送方式 </span>
+                </div>
+
+                <div class="my-progress progress" style="height: 10px; width: 100%;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        style="width: 25%;">
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center mx-3">
+                    <div class="my-circle-bg rounded-circle d-flex justify-content-center align-items-center"> 3 </div>
+                    <span class="mt-3 text-center my-text"> 填寫資料 </span>
+                </div>
+
+                <div class="my-progress progress" style="height: 10px; width: 100%;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar">
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center mx-3">
+                    <div class="my-circle-bg rounded-circle d-flex justify-content-center align-items-center"> 4 </div>
+                    <span class="mt-3 text-center my-text"> 完成訂單 </span>
+                </div>
+            </div>
+
+            <div class="border-top m-4"></div>
+            <h5 class="m-4 text-style"> 付款方式 </h5>
+
+            <div class="d-flex flex-column m-4">
+                <div class="d-flex justify-content-between mx-2">
+                    <form class="py-2">
+                        <input type="radio" id="credit-card" name="pay" value="信用卡付款">
+                        <label for="credit-card" class="mb-2"> 信用卡付款 </label>
+                        <br>
+                        <input type="radio" id="atm" name="pay" value="網路 ATM">
+                        <label for="atm" class="mb-2"> 網路 ATM </label>
+                        <br>
+                        <input type="radio" id="code" name="pay" value="超商代碼">
+                        <label for="code" class="mb-2"> 超商代碼 </label>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-top m-4"></div>
+            <h5 class="m-4 text-style"> 運送方式 </h5>
+
+            <div class="d-flex flex-column m-4">
+                <div class="d-flex justify-content-between mx-2">
+                    <form class="py-2">
+                        <input type="radio" id="t-cat" name="delivery" value="黑貓宅配">
+                        <label for="t-cat" class="mb-2"> 黑貓宅配 </label>
+                        <br>
+                        <input type="radio" id="store" name="delivery" value="超商店到店">
+                        <label for="store" class="mb-2"> 超商店到店 </label>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-top m-4"></div>
+
+            <div class="row row-cols-2 d-flex justify-content-end me-3">
+                <div class="col-md-3 d-flex flex-column">
+                    <div class="d-flex justify-content-between">
+                        <span> 數量： </span>
+                        <span> 3 </span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span> 小計： </span>
+                        <span> $1600 </span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span> 運費： </span>
+                        <span> $60 </span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span> 總計： </span>
+                        <span> $1660 </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-top m-4"></div>
+
+            <div class="row d-flex justify-content-between m-4 row-gap-3">
+                <div class="col-12 col-sm-4 col-lg-3">
+                    <a href="./shopping-step1.html" id="btn-left"
+                        class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2">
+                        <i class="bi bi-arrow-left me-2"></i> 上一步
+                    </a>
+                </div>
+                <div class="col col-sm-4 col-lg-3">
+                    <a href="./shopping-step3.html" id="btn-right"
+                        class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger"> 下一步 </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-danger">
+        <div class="container text-center px-2 py-4 py-md-5">
+            <div class="row">
+                <div class="col-md-3 mb-5">
+                    <a class="" href="#"><img src="./img/pokemon-logo.png" width="100%"></a>
+                    <ul class="nav flex-column my-3">
+                        <li>探索寶可夢世界，捕捉更多的神奇寶可夢！</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md mb-3">
+                    <h5 class="fw-bold" style="font-size: 20px;">寶可夢類別</h5>
+                    <ul class="nav flex-column">
+                        <a href="#" class="my-nav nav-item nav-link mb-2">草系寶可夢</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">火系寶可夢</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">水系寶可夢</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">電系寶可夢</a>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md mb-3">
+                    <h5 class="fw-bold" style="font-size: 20px;">遊戲攻略</h5>
+                    <ul class="nav flex-column">
+                        <a href="#" class="my-nav nav-item nav-link mb-2">捕捉技巧</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">訓練方法</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">對戰策略</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">神獸指南</a>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md mb-3">
+                    <h5 class="fw-bold" style="font-size: 20px;">社群活動</h5>
+                    <ul class="nav flex-column">
+                        <a href="#" class="my-nav nav-item nav-link mb-2">寶可夢活動</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">官方比賽</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">粉絲見面會</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">線上討論區</a>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md mb-3">
+                    <h5 class="fw-bold" style="font-size: 20px;">支持與幫助</h5>
+                    <ul class="nav flex-column">
+                        <a href="#" class="my-nav nav-item nav-link mb-2">常見問題</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">聯絡我們</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">隱私政策</a>
+                        <a href="#" class="my-nav nav-item nav-link mb-2">服務條款</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="my-footer-nav footer-nav bg-danger py-4 d-flex justify-content-center">
+            <div class="row-col-2 container d-flex justify-content-between px-5">
+                <div class="col-8 footer-nav-left d-flex">
+                    <i class="bi bi-c-circle me-2" style="font-size: 14px;"></i>
+                    <span style="font-size: 14px;"> 2024 Pokemon Company, Inc. 版權所有。
+                    </span>
+                </div>
+                <div class="col-4 footer-nav-right d-flex justify-content-end">
+                    <ul class="nav">
+                        <a href="#" class="my-nav nav-item ms-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="my-nav nav-item ms-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="my-nav nav-item ms-3"><i class="bi bi-instagram"></i></a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
