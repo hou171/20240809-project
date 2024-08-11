@@ -14,12 +14,12 @@ export default {
         },
     },
     methods: {
-        plus() {
-            if (this.count > 0) {
+        minus() {
+            if (this.count > 1) {
                 this.count--;
             }
         },
-        minus() {
+        plus() {
             this.count++;
         }
     },
@@ -28,9 +28,9 @@ export default {
 
 <template>
     <div class="count-btn-container">
-        <button type="button" class="count-btn minusBtn" @click="plus">-</button>
+        <button type="button" class="count-btn minusBtn" @click="minus">-</button>
         <div class="count">{{ count }}</div>
-        <button type="button" class="count-btn plusBtn" @click="minus">+</button>
+        <button type="button" class="count-btn plusBtn" @click="plus">+</button>
     </div>
 </template>
 

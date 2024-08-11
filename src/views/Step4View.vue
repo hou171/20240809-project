@@ -1,3 +1,31 @@
+<script>
+import OrderSummary from '@/components/OrderSummary.vue';
+
+export default {
+    components: {
+        OrderSummary,
+    },
+    data() {
+        return {
+            shopData: {},
+            methods: {},
+            userData: {},
+            shopItems: [],
+        };
+    },
+    mounted() {
+        const jsonData = sessionStorage.getItem('shopping-cart');
+        if (jsonData) {
+            const shopData = JSON.parse(jsonData);
+            this.shopData = shopData.shopData || {};
+            this.methods = shopData.methods || {};
+            this.userData = shopData.userData || {};
+            this.shopItems = shopData.shopItems || [];
+        }
+    },
+}
+</script>
+
 <template>
     <main class="container py-5 d-flex">
         <div class="container my-bg">
@@ -50,66 +78,27 @@
             <h5 class="m-4 text-style"> 訂單明細 </h5>
 
             <div class="d-flex flex-column m-4">
-                <div class="d-flex justify-content-between mx-2">
+                <div class="d-flex justify-content-between mx-2" v-for="shopItem in shopItems"
+                :key="shopItem.number">
                     <div class="d-flex align-items-center py-2">
-                        <img class="my-product-img" src="../assets/img/poke-ball.png" alt="">
+                        <img class="my-product-img" :src="shopItem.photo" :alt="shopItem.name">
                         <span class="d-flex flex-column ms-2">
-                            <span> 寶貝球 </span>
-                            <span style="font-size: 12px;"> #00001 </span>
+                            <span> {{ shopItem.name }} </span>
+                            <span style="font-size: 12px;"> {{ shopItem.number }} </span>
                         </span>
                     </div>
                     <div class="d-flex align-items-center">
                         <div id="product1-count" class="d-flex align-items-center mx-3">
-                            x1
+                            x{{ shopItem.quantity }}
                         </div>
 
                         <div id="product1-price" class="d-flex align-items-center ms-3">
-                            $300
+                            ${{ shopItem.subtotal }}
                         </div>
                     </div>
                 </div>
 
                 <div class="border-top m-2"></div>
-
-                <div class="d-flex justify-content-between mx-2">
-                    <div class="d-flex align-items-center py-2">
-                        <img class="my-product-img" src="../assets/img/great-ball.png" alt="">
-                        <span class="d-flex flex-column ms-2">
-                            <span> 超級球 </span>
-                            <span style="font-size: 12px;"> #00002 </span>
-                        </span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div id="product2-count" class="d-flex align-items-center mx-3">
-                            x1
-                        </div>
-
-                        <div id="product2-price" class="d-flex align-items-center ms-3">
-                            $500
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-top m-2"></div>
-
-                <div class="d-flex justify-content-between mx-2">
-                    <div class="d-flex align-items-center py-2">
-                        <img class="my-product-img" src="../assets/img/ultra-ball.png" alt="">
-                        <span class="d-flex flex-column ms-2">
-                            <span> 高級球 </span>
-                            <span style="font-size: 12px;"> #00003 </span>
-                        </span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div id="product2-count" class="d-flex align-items-center mx-3">
-                            x1
-                        </div>
-
-                        <div id="product3-price" class="d-flex align-items-center ms-3">
-                            $800
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <h5 class="m-4 text-style"> 寄送資料 </h5>
@@ -118,19 +107,20 @@
                 <div class="col-md-5 d-flex flex-column">
                     <div class="d-flex mb-1">
                         <span class="me-1"> 姓名： </span>
-                        <span> 被小智放生24年的比雕 </span>
+                        <span> {{ userData.name }} </span>
                     </div>
                     <div class="d-flex mb-1">
                         <span class="me-1"> 電話： </span>
-                        <span> 0912345678 </span>
+                        <span> {{ userData.phone }} </span>
                     </div>
                     <div class="d-flex mb-1">
                         <span class="me-1"> Email： </span>
-                        <span> example@gmail.com </span>
+                        <span> {{ userData.email }} </span>
                     </div>
                     <div class="d-flex">
-                        <span class="me-1"> 地址： </span>
-                        <span> 406 台中市北屯區 </span>
+                        <span class="me-1"> 取貨地址： </span>
+                        <span v-if="methods.deliver === '黑貓宅配'"> {{ userData.postalCode }} {{ userData.city }} {{ userData.address }} </span>
+                        <span v-else> {{ methods.deliver }} </span>
                     </div>
                 </div>
             </div>
@@ -138,32 +128,15 @@
             <div class="border-top m-4"></div>
 
             <div class="row row-cols-2 d-flex justify-content-end me-3">
-                <div class="col-md-3 d-flex flex-column">
-                    <div class="d-flex justify-content-between">
-                        <span> 數量： </span>
-                        <span> 3 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 小計： </span>
-                        <span> $1600 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 運費： </span>
-                        <span> $60 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 總計： </span>
-                        <span> $1660 </span>
-                    </div>
-                </div>
+                <OrderSummary :shopItems="shopItems" />
             </div>
 
             <div class="border-top m-4"></div>
 
             <div class="row d-flex justify-content-end m-4 row-gap-3">
                 <div class="col col-sm-4 col-lg-3">
-                    <a id="btn-right"
-                        class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger" @click="() => { $router.push('/') }"> 返回首頁 </a>
+                    <a id="btn-right" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger"
+                        @click="() => { $router.push('/') }"> 返回首頁 </a>
                 </div>
             </div>
         </div>

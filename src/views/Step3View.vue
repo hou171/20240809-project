@@ -1,3 +1,50 @@
+<script>
+import OrderSummary from '@/components/OrderSummary.vue';
+
+export default {
+    components: {
+        OrderSummary,
+    },
+    data() {
+        return {
+            shopData: {},
+            methods: {},
+            userData: {
+                name: '',
+                phone: '',
+                email: '',
+                city: '',
+                postalCode: '',
+                address: '',
+            },
+            shopItems: [],
+        }
+    },
+    mounted() {
+        const jsonData = sessionStorage.getItem('shopping-cart');
+        if (jsonData) {
+            const shopData = JSON.parse(jsonData);
+            this.methods = shopData.methods || {};
+            this.shopItems = shopData.shopItems || [];
+        }
+    },
+    methods: {
+        setData() {
+            if (!this.userData.name || !this.userData.phone || !this.userData.email ||
+                !this.userData.city || !this.userData.postalCode || !this.userData.address) {
+                alert('請填寫所有資料');
+                return;
+            }
+            this.shopData.methods = this.methods;
+            this.shopData.userData = this.userData;
+            this.shopData.shopItems = this.shopItems;
+            sessionStorage.setItem('shopping-cart', JSON.stringify(this.shopData));
+            this.$router.push('/step4');
+        },
+    },
+}
+</script>
+
 <template>
     <main class="container py-5 d-flex">
         <div class="container my-bg">
@@ -52,22 +99,28 @@
                     <form class="py-2">
                         <label for="name">姓名：</label>
                         <br>
-                        <input type="text" id="name" name="name" class="mb-2" placeholder="被小智放生24年的比雕">
+                        <input v-model="userData.name" type="text" id="name" name="name" class="mb-2"
+                            placeholder="被小智放生24年的比雕" value="被小智放生24年的比雕">
                         <br>
                         <label for="phone">電話：</label>
                         <br>
-                        <input type="text" id="phone" name="phone" class="mb-2" placeholder="0912345678">
+                        <input v-model="userData.phone" type="text" id="phone" name="phone" class="mb-2"
+                            placeholder="0912345678" value="電話">
                         <br>
                         <label for="email">Email：</label>
                         <br>
-                        <input type="text" id="email" name="email" class="mb-2" placeholder="@gmail.com">
+                        <input v-model="userData.email" type="text" id="email" name="email" class="mb-2"
+                            placeholder="@gmail.com" value="Email">
                         <br>
                         <label for="address">地址：</label>
                         <br>
-                        <input type="text" id="address" name="address" class="mb-1" placeholder="城市">
-                        <input type="text" id="address" name="address" class="mb-1" placeholder="郵遞區號">
+                        <input v-model="userData.city" type="text" id="address" name="address" class="mb-1"
+                            placeholder="城市" value="城市">
+                        <input v-model="userData.postalCode" type="text" id="address" name="address" class="mb-1"
+                            placeholder="郵遞區號" value="郵遞區號">
                         <br>
-                        <input type="text" id="address" name="address" placeholder="地址">
+                        <input v-model="userData.address" type="text" id="address" name="address" placeholder="地址"
+                            value="地址">
                     </form>
                 </div>
             </div>
@@ -75,36 +128,21 @@
             <div class="border-top m-4"></div>
 
             <div class="row row-cols-2 d-flex justify-content-end me-3">
-                <div class="col-md-3 d-flex flex-column">
-                    <div class="d-flex justify-content-between">
-                        <span> 數量： </span>
-                        <span> 3 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 小計： </span>
-                        <span> $1600 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 運費： </span>
-                        <span> $60 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 總計： </span>
-                        <span> $1660 </span>
-                    </div>
-                </div>
+                <OrderSummary :shopItems="shopItems" />
             </div>
 
             <div class="border-top m-4"></div>
 
             <div class="row d-flex justify-content-between m-4 row-gap-3">
                 <div class="col-12 col-sm-4 col-lg-3">
-                    <a id="btn-left" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2" @click="() => { $router.push('/step2') }">
+                    <a id="btn-left" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2"
+                        @click="() => { $router.push('/step2') }">
                         <i class="bi bi-arrow-left me-2"></i> 上一步
                     </a>
                 </div>
                 <div class="col col-sm-4 col-lg-3">
-                    <a id="btn-right" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger" @click="() => { $router.push('/step4') }"> 前往付款 </a>
+                    <a id="btn-right" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger"
+                        @click="setData"> 前往付款 </a>
                 </div>
             </div>
         </div>

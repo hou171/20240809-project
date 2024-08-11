@@ -3,23 +3,61 @@ import CountBtn from '@/components/CountBtn.vue';
 import PokeBall from '@/assets/img/poke-ball.png';
 import GreatBall from '@/assets/img/great-ball.png';
 import UltraBall from '@/assets/img/ultra-ball.png';
+import OrderSummary from '@/components/OrderSummary.vue';
 
 export default {
     components: {
         CountBtn,
+        OrderSummary,
     },
     data() {
         return {
-            shopItems: [
-                { number: '#00001', name: '寶貝球', price: 300, quantity: 0, photo: PokeBall },
-                { number: '#00002', name: '超級球', price: 500, quantity: 0, photo: GreatBall },
-                { number: '#00003', name: '高級球', price: 800, quantity: 0, photo: UltraBall },
-            ],
+            shopData: {
+                shopItems: [
+                    { number: '#00001', name: '寶貝球', price: 300, quantity: 1, subtotal: 300, photo: PokeBall },
+                    { number: '#00002', name: '超級球', price: 500, quantity: 1, subtotal: 500, photo: GreatBall },
+                    { number: '#00003', name: '高級球', price: 800, quantity: 1, subtotal: 800, photo: UltraBall },
+                ],
+                methods: {},
+                userData: {},
+            }
         };
     },
-    methods: {
-        
+    computed: {
+        totalPrice() {
+            const total = this.shopData.shopItems.reduce((acc, item) => {
+                item.subtotal = item.price * item.quantity;
+                acc += item.subtotal;
+                return acc;
+            }, 0);
+            return total;
+        }
     },
+    methods: {
+        updateSubtotals() {
+            this.shopData.shopItems.forEach(item => {
+                item.subtotal = item.price * item.quantity;
+            });
+        },
+        setData() {
+            this.updateSubtotals();
+
+            const totalQuantity = this.shopData.shopItems.reduce((acc, item) => acc + item.quantity, 0);
+            const subtotal = this.totalPrice;
+            const shoppingFee = 60;
+            const total = subtotal + shoppingFee;
+
+            this.shopData.summary = {
+                totalQuantity,
+                subtotal,
+                shoppingFee,
+                total,
+            };
+            const jsonData = JSON.stringify(this.shopData);
+            sessionStorage.setItem('shopping-cart', jsonData);
+            this.$router.push('/step2');
+        }
+    }
 }
 </script>
 
@@ -69,7 +107,8 @@ export default {
             <h5 class="m-4 text-style"> 訂單明細 </h5>
 
             <div class="d-flex flex-column m-4">
-                <div class="d-flex justify-content-between mx-2" v-for="(shopItem, index) in shopItems" :key="index">
+                <div class="d-flex justify-content-between mx-2" v-for="shopItem in shopData.shopItems"
+                    :key="shopItem.number">
                     <div class="d-flex align-items-center py-2">
                         <img class="my-product-img" :src="shopItem.photo" :alt="shopItem.name">
                         <span class="d-flex flex-column ms-2">
@@ -78,8 +117,13 @@ export default {
                         </span>
                     </div>
                     <div class="d-flex align-items-center">
-                        <CountBtn @calc="(count) => shopItem.quantity = count" />
-                        <div class="d-flex align-items-center ms-3">${{ shopItem.price * shopItem.quantity }}</div>
+                        <CountBtn @calc="(count) => {
+                            shopItem.quantity = count;
+                            this.updateSubtotals();
+                        }" />
+                        <div class="d-inline-block" style="width: 80px;">
+                            <span class="text-end d-block">${{ shopItem.subtotal }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,24 +131,7 @@ export default {
             <div class="border-top m-4"></div>
 
             <div class="row row-cols-2 d-flex justify-content-end me-3">
-                <div class="col-md-3 d-flex flex-column">
-                    <div class="d-flex justify-content-between">
-                        <span> 數量： </span>
-                        <span id="count"> 3 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 小計： </span>
-                        <span id="subtotal"> $1600 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 運費： </span>
-                        <span id="deliveryfee"> $60 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 總計： </span>
-                        <span id="total"> $1660 </span>
-                    </div>
-                </div>
+                <OrderSummary :shopItems="shopData.shopItems" />
             </div>
 
             <div class="border-top m-4"></div>
@@ -118,7 +145,7 @@ export default {
                 </div>
                 <div class="col col-sm-4 col-lg-3">
                     <a id="btn-right" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger"
-                        @click="() => { $router.push('/step2') }"> 下一步 </a>
+                        @click="setData"> 下一步 </a>
                 </div>
             </div>
 

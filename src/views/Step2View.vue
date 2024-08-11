@@ -1,3 +1,50 @@
+<script>
+import OrderSummary from '@/components/OrderSummary.vue';
+
+export default {
+    components: {
+        OrderSummary,
+    },
+    data() {
+        return {
+            methods: {
+                pay: '',
+                deliver: '',
+            },
+            shopItems: [],
+        };
+    },
+    mounted() {
+        const jsonData = sessionStorage.getItem('shopping-cart');
+        if (jsonData) {
+            const shopData = JSON.parse(jsonData);
+            this.shopItems = shopData.shopItems || [];
+        }
+    },
+    methods: {
+        setData() {
+            if (!this.methods.pay) {
+                alert('請選擇付款方式');
+                return;
+            }
+            if (!this.methods.deliver) {
+                alert('請選擇運送方式');
+                return;
+            }
+            const jsonData = sessionStorage.getItem('shopping-cart');
+            try {
+                const shopData = JSON.parse(jsonData) || {};
+                shopData.methods = this.methods;
+                sessionStorage.setItem('shopping-cart', JSON.stringify(shopData));
+                this.$router.push('/step3');
+            } catch (error) {
+                alert('系統錯誤，請聯絡客服！');
+            }
+        },
+    },
+}
+</script>
+
 <template>
     <main class="container py-5 d-flex">
         <div class="container my-bg">
@@ -48,13 +95,13 @@
             <div class="d-flex flex-column m-4">
                 <div class="d-flex justify-content-between mx-2">
                     <form class="py-2">
-                        <input type="radio" id="credit-card" name="pay" value="信用卡付款">
+                        <input v-model="methods.pay" type="radio" id="credit-card" name="pay" value="信用卡付款">
                         <label for="credit-card" class="mb-2"> 信用卡付款 </label>
                         <br>
-                        <input type="radio" id="atm" name="pay" value="網路 ATM">
+                        <input v-model="methods.pay" type="radio" id="atm" name="pay" value="網路 ATM">
                         <label for="atm" class="mb-2"> 網路 ATM </label>
                         <br>
-                        <input type="radio" id="code" name="pay" value="超商代碼">
+                        <input v-model="methods.pay" type="radio" id="code" name="pay" value="超商代碼">
                         <label for="code" class="mb-2"> 超商代碼 </label>
                     </form>
                 </div>
@@ -66,10 +113,10 @@
             <div class="d-flex flex-column m-4">
                 <div class="d-flex justify-content-between mx-2">
                     <form class="py-2">
-                        <input type="radio" id="t-cat" name="delivery" value="黑貓宅配">
+                        <input v-model="methods.deliver" type="radio" id="t-cat" name="delivery" value="黑貓宅配">
                         <label for="t-cat" class="mb-2"> 黑貓宅配 </label>
                         <br>
-                        <input type="radio" id="store" name="delivery" value="超商店到店">
+                        <input v-model="methods.deliver" type="radio" id="store" name="delivery" value="超商店到店">
                         <label for="store" class="mb-2"> 超商店到店 </label>
                     </form>
                 </div>
@@ -78,36 +125,21 @@
             <div class="border-top m-4"></div>
 
             <div class="row row-cols-2 d-flex justify-content-end me-3">
-                <div class="col-md-3 d-flex flex-column">
-                    <div class="d-flex justify-content-between">
-                        <span> 數量： </span>
-                        <span> 3 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 小計： </span>
-                        <span> $1600 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 運費： </span>
-                        <span> $60 </span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span> 總計： </span>
-                        <span> $1660 </span>
-                    </div>
-                </div>
+                <OrderSummary :shopItems="shopItems" />
             </div>
 
             <div class="border-top m-4"></div>
 
             <div class="row d-flex justify-content-between m-4 row-gap-3">
                 <div class="col-12 col-sm-4 col-lg-3">
-                    <a id="btn-left" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2" @click="() => { $router.push('/step1') }">
+                    <a id="btn-left" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2"
+                        @click="() => { $router.push('/step1') }">
                         <i class="bi bi-arrow-left me-2"></i> 上一步
                     </a>
                 </div>
                 <div class="col col-sm-4 col-lg-3">
-                    <a id="btn-right" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger" @click="() => { $router.push('/step3') }"> 下一步 </a>
+                    <a id="btn-right" class="d-flex justify-content-center rounded-2 px-0 px-sm-3 py-2 bg-danger"
+                        @click="setData"> 下一步 </a>
                 </div>
             </div>
         </div>
